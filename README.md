@@ -352,7 +352,7 @@ Computer Science Engineering Graduate | Aspiring Software Developer
 
 ### 3. Administrator Dashboard
 
-![Administrator Dashboard](screenshots/s1.png.png)
+![Administrator Dashboard](screenshots/s1.png)
 
 <br/>
 
