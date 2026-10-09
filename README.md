@@ -340,25 +340,25 @@ Computer Science Engineering Graduate | Aspiring Software Developer
 
 ### 1. Login Page
 
-![Login Page](mploychek-intern-challenge\screenshots\Screenshot (168).png)
+![Login Page](mploychek-intern-challenge\screenshots\Screenshot(168).png)
 
 <br/>
 
 ### 2. General User Dashboard
 
-![General User Dashboard](mploychek-intern-challenge\screenshots\Screenshot (169).png)
+![General User Dashboard](mploychek-intern-challenge\screenshots\Screenshot(169).png)
 
 <br/>
 
 ### 3. Administrator Dashboard
 
-![Administrator Dashboard](mploychek-intern-challenge\screenshots\Screenshot (165).png)
+![Administrator Dashboard](mploychek-intern-challenge\screenshots\Screenshot(165).png)
 
 <br/>
 
 ### 4. User Management
 
-![User Management](mploychek-intern-challenge\screenshots\Screenshot (167).png)
+![User Management](mploychek-intern-challenge\screenshots\Screenshot(167).png)
 
 ---
 
