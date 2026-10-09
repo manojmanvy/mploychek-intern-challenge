@@ -1,0 +1,34 @@
+[
+  {
+    "id": 1,
+    "userId": "user001",
+    "password": "User@123",
+    "name": "Arun Kumar",
+    "email": "arun@example.com",
+    "role": "user"
+  },
+  {
+    "id": 2,
+    "userId": "user002",
+    "password": "User@123",
+    "name": "Priya Sharma",
+    "email": "priya@example.com",
+    "role": "user"
+  },
+  {
+    "id": 3,
+    "userId": "admin001",
+    "password": "Admin@123",
+    "name": "Manoj Admin",
+    "email": "admin@example.com",
+    "role": "admin"
+  },
+  {
+    "id": 4,
+    "userId": "persist_test",
+    "password": "Persist@123",
+    "name": "Persistence Test",
+    "email": "persist@test.com",
+    "role": "user"
+  }
+]

@@ -1,0 +1,360 @@
+<div class="dashboard-page">
+  <div class="ambient ambient-one"></div>
+  <div class="ambient ambient-two"></div>
+
+  <header class="topbar">
+    <a class="brand" routerLink="/dashboard">
+      <div class="brand-icon">M<span>.</span></div>
+      <div class="brand-copy">
+        <h2>MPloy<span>Chek</span></h2>
+        <p>VERIFICATION PLATFORM</p>
+      </div>
+    </a>
+
+<div class="topbar-right" *ngIf="currentUser">
+  <div class="system-status">
+    <span class="online-dot"></span>
+    SYSTEM ONLINE
+  </div>
+
+  <div class="topbar-divider"></div>
+
+  <div class="user-mini">
+    <div class="avatar">{{ currentUser.name.charAt(0).toUpperCase() }}</div>
+    <div class="user-mini-copy">
+      <strong>{{ currentUser.name }}</strong>
+      <span>{{ isAdmin() ? 'Administrator' : 'General User' }}</span>
+    </div>
+  </div>
+
+  <button class="logout-btn" (click)="logout()">
+    <span>↗</span> Logout
+  </button>
+</div>
+
+  </header>
+
+  <main class="main-content">
+    <section class="welcome-section">
+      <div class="welcome-copy">
+        <div class="eyebrow">
+          <span class="eyebrow-line"></span>
+          YOUR WORKSPACE
+        </div>
+
+    <h1>Good to see you,<br><span>{{ currentUser?.name }}.</span></h1>
+
+    <p class="subtitle">
+      Your verification workspace is ready. Here's what's happening across your account.
+    </p>
+  </div>
+
+  <div class="welcome-side">
+    <div class="access-card">
+      <div class="access-icon">{{ isAdmin() ? '⬡' : '◈' }}</div>
+      <div>
+        <span class="access-caption">CURRENT ACCESS</span>
+        <strong>{{ isAdmin() ? 'Administrator' : 'General User' }}</strong>
+        <span class="access-secure"><span></span> Authenticated session</span>
+      </div>
+    </div>
+    <div class="welcome-decoration">M<span>.</span></div>
+  </div>
+</section>
+
+<div class="alert error-alert" *ngIf="errorMessage">
+  <span class="alert-icon">!</span>
+  <span class="alert-message">{{ errorMessage }}</span>
+  <button (click)="errorMessage = ''" aria-label="Dismiss error">×</button>
+</div>
+
+<div class="alert success-alert" *ngIf="successMessage">
+  <span class="alert-icon">✓</span>
+  <span class="alert-message">{{ successMessage }}</span>
+  <button (click)="successMessage = ''" aria-label="Dismiss message">×</button>
+</div>
+
+<section class="profile-grid" *ngIf="currentUser">
+  <article class="profile-card profile-card-one">
+    <div class="card-top">
+      <div class="card-icon purple">⌘</div>
+      <span class="card-index">01 / IDENTITY</span>
+    </div>
+    <p class="card-label">USER IDENTIFICATION</p>
+    <h3>{{ currentUser.userId }}</h3>
+    <div class="card-bottom">
+      <span class="card-note">Your unique account identifier</span>
+      <span class="card-arrow">↗</span>
+    </div>
+  </article>
+
+  <article class="profile-card profile-card-two">
+    <div class="card-top">
+      <div class="card-icon blue">✉</div>
+      <span class="card-index">02 / CONTACT</span>
+    </div>
+    <p class="card-label">REGISTERED EMAIL</p>
+    <h3 class="email-value">{{ currentUser.email }}</h3>
+    <div class="card-bottom">
+      <span class="card-note">Account contact information</span>
+      <span class="card-arrow">↗</span>
+    </div>
+  </article>
+
+  <article class="profile-card profile-card-three">
+    <div class="card-top">
+      <div class="card-icon green">⬡</div>
+      <span class="card-index">03 / SECURITY</span>
+    </div>
+    <p class="card-label">ACCESS PERMISSIONS</p>
+    <h3>{{ isAdmin() ? 'Administrator' : 'General User' }}</h3>
+    <div class="card-bottom">
+      <span class="card-note">Role-based access control</span>
+      <span class="card-arrow">↗</span>
+    </div>
+  </article>
+</section>
+
+<section class="content-card records-section">
+  <div class="section-heading">
+    <div class="section-title-group">
+      <div class="section-icon">▤</div>
+      <div>
+        <div class="eyebrow">DATA OVERVIEW</div>
+        <h2>Verification Records</h2>
+        <p class="section-description">Monitor verification activity and record statuses.</p>
+      </div>
+    </div>
+
+    <button class="refresh-btn" (click)="loadDashboard()" [disabled]="loading">
+      <span [class.refreshing]="loading">↻</span>
+      {{ loading ? 'Refreshing...' : 'Refresh data' }}
+    </button>
+  </div>
+
+  <div class="table-meta">
+    <div class="table-meta-left">
+      <span class="live-indicator"></span>
+      LIVE DATA
+      <span class="meta-divider">/</span>
+      BACKEND API
+    </div>
+    <div class="record-count">
+      <span class="count-number">{{ records.length }}</span> records
+    </div>
+  </div>
+
+  <div class="loading-state" *ngIf="loading">
+    <div class="loader-orbit">
+      <div class="spinner"></div>
+      <span>↻</span>
+    </div>
+    <h3>Synchronizing your workspace</h3>
+    <p>Connecting to the verification service...</p>
+    <div class="loading-track"><span></span></div>
+  </div>
+
+  <div class="table-wrapper" *ngIf="!loading">
+    <table *ngIf="records.length > 0; else noRecords">
+      <thead>
+        <tr>
+          <th>RECORD ID</th>
+          <th>VERIFICATION</th>
+          <th>CATEGORY</th>
+          <th>STATUS</th>
+          <th *ngIf="isAdmin()">ASSIGNED USER</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let record of records">
+          <td><span class="record-id">#{{ record.id }}</span></td>
+          <td>
+            <div class="record-name">
+              <span class="record-symbol">◇</span>
+              <span class="record-title">{{ record.title }}</span>
+            </div>
+          </td>
+          <td><span class="category-label">{{ record.category }}</span></td>
+          <td>
+            <span class="status-badge"
+              [ngClass]="record.status.toLowerCase().replace(' ', '-')">
+              <span class="status-dot"></span>
+              {{ record.status }}
+            </span>
+          </td>
+          <td *ngIf="isAdmin()">
+            <span class="assigned-user">{{ record.userId }}</span>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+
+    <ng-template #noRecords>
+      <div class="empty-state">
+        <div class="empty-icon">▤</div>
+        <h3>No verification records</h3>
+        <p>There are no records available for this account right now.</p>
+      </div>
+    </ng-template>
+  </div>
+
+  <div class="table-footer" *ngIf="!loading">
+    <span>Showing <strong>{{ records.length }}</strong> record(s)</span>
+    <span><span class="footer-dot"></span> Connected to backend</span>
+  </div>
+</section>
+
+<section class="content-card admin-section" *ngIf="isAdmin()">
+  <div class="section-heading admin-heading">
+    <div class="section-title-group">
+      <div class="section-icon admin-icon">♙</div>
+      <div>
+        <div class="eyebrow">CONTROL CENTER</div>
+        <h2>User Management</h2>
+        <p class="section-description">Create and manage platform accounts.</p>
+      </div>
+    </div>
+
+    <button class="primary-btn" (click)="showUserForm = !showUserForm">
+      <span>{{ showUserForm ? '−' : '+' }}</span>
+      {{ showUserForm ? 'Close form' : 'Add new user' }}
+    </button>
+  </div>
+
+  <div class="admin-stats">
+    <div class="admin-stat">
+      <span class="stat-symbol">♙</span>
+      <div>
+        <span class="stat-caption">REGISTERED ACCOUNTS</span>
+        <strong>{{ users.length }}</strong>
+      </div>
+    </div>
+    <div class="admin-stat">
+      <span class="stat-symbol purple-stat">⬡</span>
+      <div>
+        <span class="stat-caption">ACCESS CONTROL</span>
+        <strong>Role-based</strong>
+      </div>
+    </div>
+  </div>
+
+  <form class="user-form" *ngIf="showUserForm"
+    #userForm="ngForm" (ngSubmit)="createUser()">
+
+    <div class="form-heading">
+      <div>
+        <span class="form-kicker">NEW ACCOUNT</span>
+        <h3>Create a platform user</h3>
+      </div>
+      <span class="form-required">* Required fields</span>
+    </div>
+
+    <div class="form-grid">
+      <div class="form-field">
+        <label for="newUserId">User ID <span>*</span></label>
+        <input id="newUserId" name="userId"
+          [(ngModel)]="newUser.userId" required
+          placeholder="e.g. user003" autocomplete="off">
+      </div>
+
+      <div class="form-field">
+        <label for="newName">Full Name <span>*</span></label>
+        <input id="newName" name="name"
+          [(ngModel)]="newUser.name" required
+          placeholder="Enter full name" autocomplete="name">
+      </div>
+
+      <div class="form-field">
+        <label for="newEmail">Email Address <span>*</span></label>
+        <input id="newEmail" type="email" name="email"
+          [(ngModel)]="newUser.email" required email
+          placeholder="name@example.com" autocomplete="email">
+      </div>
+
+      <div class="form-field">
+        <label for="newPassword">Password <span>*</span></label>
+        <input id="newPassword" type="password" name="password"
+          [(ngModel)]="newUser.password" required minlength="8"
+          placeholder="Minimum 8 characters" autocomplete="new-password">
+      </div>
+
+      <div class="form-field">
+        <label for="newRole">Account Role <span>*</span></label>
+        <select id="newRole" name="role" [(ngModel)]="newUser.role" required>
+          <option value="user">General User</option>
+          <option value="admin">Administrator</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="form-actions">
+      <span>✦ &nbsp;Account details will be submitted to the backend.</span>
+      <button type="submit" class="primary-btn" [disabled]="userForm.invalid">
+        Create account <span>↗</span>
+      </button>
+    </div>
+  </form>
+
+  <div class="loading-state compact-loading" *ngIf="usersLoading">
+    <div class="spinner"></div>
+    <h3>Loading registered users...</h3>
+  </div>
+
+  <div class="table-wrapper users-table-wrapper" *ngIf="!usersLoading">
+    <table *ngIf="users.length > 0; else noUsers">
+      <thead>
+        <tr>
+          <th>USER</th>
+          <th>EMAIL ADDRESS</th>
+          <th>ROLE</th>
+          <th>ACCOUNT ID</th>
+          <th>ACTION</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let user of users">
+          <td>
+            <div class="record-name">
+              <span class="user-table-avatar">{{ user.name.charAt(0).toUpperCase() }}</span>
+              <div class="user-table-name">
+                <strong>{{ user.name }}</strong>
+                <span>{{ user.userId }}</span>
+              </div>
+            </div>
+          </td>
+          <td class="user-email">{{ user.email }}</td>
+          <td>
+            <span class="role-label" [class.admin-role]="user.role === 'admin'">
+              <span></span>
+              {{ user.role === 'admin' ? 'Administrator' : 'General User' }}
+            </span>
+          </td>
+          <td class="record-id">#{{ user.id }}</td>
+          <td>
+            <button class="delete-btn"
+              [disabled]="user.id === currentUser?.id"
+              (click)="deleteUser(user.id, user.userId)">
+              {{ user.id === currentUser?.id ? 'Current account' : 'Delete user' }}
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+
+    <ng-template #noUsers>
+      <div class="empty-state">
+        <div class="empty-icon">♙</div>
+        <h3>No users found</h3>
+        <p>Create a new account to get started.</p>
+      </div>
+    </ng-template>
+  </div>
+</section>
+
+<footer class="page-footer">
+  <div class="footer-brand"><span>M.</span> MPloyChek</div>
+  <span>Software Intern Challenge <i></i> Secure workspace <i></i> Role-based access</span>
+</footer>
+
+  </main>
+</div>
