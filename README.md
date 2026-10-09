@@ -340,25 +340,25 @@ Computer Science Engineering Graduate | Aspiring Software Developer
 
 ### 1. Login Page
 
-![Login Page](screenshots/screenshot(168).png)
+![Login Page](screenshots/Screenshot(168).png)
 
 <br/>
 
 ### 2. General User Dashboard
 
-![General User Dashboard](screenshots/screenshot(169).png)
+![General User Dashboard](screenshots/Screenshot(169).png)
 
 <br/>
 
 ### 3. Administrator Dashboard
 
-![Administrator Dashboard](screenshots/screenshot(165).png)
+![Administrator Dashboard](screenshots/Screenshot(165).png)
 
 <br/>
 
 ### 4. User Management
 
-![User Management](screenshots/screenshot(167).png)
+![User Management](screenshots/Screenshot(167).png)
 
 ---
 
